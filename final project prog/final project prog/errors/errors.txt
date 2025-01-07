@@ -1,0 +1,1 @@
+Exception during employee adding: Field 'app_id' doesn't have a default value

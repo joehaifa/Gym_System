@@ -1,0 +1,2490 @@
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------Main Class------------------------------------------------------------------------
+
+package com.example.demo;
+
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+
+public class GymApplication extends Application {
+
+    public void start(Stage gymStage) {
+        BorderPane gymPagePane = new BorderPane();
+        GymData gymData = new GymData();
+
+        LogInPage loginPagePane = new LogInPage();
+        TopPage topPagePane = new TopPage();
+        EmployeePage employeePagePane = new EmployeePage(gymData);
+        CustomerPage customerPagePane = new CustomerPage(gymData);
+
+
+
+
+        HomePage homePagePane = new HomePage(gymPagePane,customerPagePane, employeePagePane);
+
+        gymPagePane.setLeft(homePagePane);
+        gymPagePane.setTop(topPagePane);
+
+
+        Scene scene = new Scene(gymPagePane);
+        gymStage.setScene(scene);
+        gymStage.setFullScreen(true);
+        gymStage.show();
+
+        /**----------------------------functionality---------------------------*/
+
+
+    }
+
+    public static void main(String[] args) {launch(args);}
+
+
+
+
+}
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------HomePage Class------------------------------------------------------------------------
+
+
+package com.example.demo;
+
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+
+class HomePage extends VBox
+{
+    private BorderPane gymPage;
+
+
+
+    private Button btCustomer = new Button("Customers");
+    private Button btEmployee = new Button("Employees");
+    private Button btAppointment = new Button("Appointments");
+    private Button btMembership = new Button("Memberships");
+
+
+
+    private Font ft1 = Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR, 25);
+    private String unselectedStyle = "-fx-background-radius: 20px ; "
+            + "-fx-text-fill : black;"
+            + "-fx-border-radius : 20px;"
+            + "-fx-border-width: 5px;"
+            + "-fx-border-color: #8CDBA9;";
+    private String selectedStyle = "-fx-background-radius: 20px ;"
+            + "-fx-text-fill : black;"
+            + "-fx-background-color: #8CDBA9;"
+            + "-fx-border-radius : 20px;"
+            + "-fx-border-width: 5px;"
+            + "-fx-border-color: #33AB5F;";
+
+
+
+
+
+
+    public HomePage(BorderPane gymPage, GridPane employeePage)
+    {
+        super(30);
+
+
+        this.gymPage = gymPage;
+        setPadding(new Insets(20,20,20,20));
+        setStyle("-fx-border-color : #8CDBA9; -fx-border-width : 0 10 0 0px;");
+
+        /**------Buttons Fonts-------*/
+        btCustomer.setFont(ft1);
+        btEmployee.setFont(ft1);
+        btMembership.setFont(ft1);
+        btAppointment.setFont(ft1);
+
+        /**------Buttons Widths------*/
+        btCustomer.setPrefWidth(200);
+        btEmployee.setPrefWidth(200);
+        btMembership.setPrefWidth(200);
+        btAppointment.setPrefWidth(200);
+
+        /**-----Buttons Style---------*/
+        btCustomer.setStyle(unselectedStyle);
+        btEmployee.setStyle(unselectedStyle);
+        btMembership.setStyle(unselectedStyle);
+        btAppointment.setStyle(unselectedStyle);
+
+
+
+        /**----Selected Effect---------*/
+        btCustomer.setOnAction(e ->
+            {
+                btCustomer.setStyle(selectedStyle);
+                btEmployee.setStyle(unselectedStyle);
+                btMembership.setStyle(unselectedStyle);
+                btAppointment.setStyle(unselectedStyle);
+            });
+
+
+        btEmployee.setOnAction(e ->
+            {
+                btEmployee.setStyle(selectedStyle);
+                btCustomer.setStyle(unselectedStyle);
+                btMembership.setStyle(unselectedStyle);
+                btAppointment.setStyle(unselectedStyle);
+                gymPage.setCenter(employeePage);
+            });
+
+
+        btMembership.setOnAction(e ->
+            {
+                btMembership.setStyle(selectedStyle);
+                btCustomer.setStyle(unselectedStyle);
+                btEmployee.setStyle(unselectedStyle);
+                btAppointment.setStyle(unselectedStyle);
+            });
+
+
+        btAppointment.setOnAction(e ->
+            {
+                btAppointment.setStyle(selectedStyle);
+                btCustomer.setStyle(unselectedStyle);
+                btEmployee.setStyle(unselectedStyle);
+                btMembership.setStyle(unselectedStyle);
+            });
+
+
+        getChildren().addAll(btCustomer, btEmployee, btMembership, btAppointment);
+        setAlignment(Pos.CENTER);
+    }
+
+}
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------TopPage Class------------------------------------------------------------------------
+
+
+package com.example.demo;
+
+import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+
+public class TopPage extends HBox
+{
+    private Button btBack = new Button();
+    private Button btSettings =new Button();
+    private int sizeOfButton = 60;
+
+
+
+    public TopPage()
+    {
+        setSpacing(1128);
+
+        /**---------Back Arrow Image Button-------*/
+        ImageView backArrowImgView = new ImageView("C:\\Users\\User\\Desktop\\final project prog"
+                + "\\images\\back-arrow.png");
+        backArrowImgView.setFitWidth(sizeOfButton);
+        backArrowImgView.setFitHeight(sizeOfButton);
+        btBack.setGraphic(backArrowImgView);
+
+
+        /**---------Settings Image Button-------*/
+        ImageView settingsImgView = new ImageView("C:\\Users\\User\\Desktop\\final project prog"
+                + "\\images\\settings.png");
+        settingsImgView.setFitWidth(sizeOfButton);
+        settingsImgView.setFitHeight(sizeOfButton);
+        btSettings.setGraphic(settingsImgView);
+
+
+
+        getChildren().addAll(btBack, btSettings);
+        setStyle("-fx-border-color : #8CDBA9; -fx-border-width : 0 0 10 0px;");
+    }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------CustomerPage Class-----------------------------------------------------------------------
+
+
+
+
+package com.example.demo;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.util.Duration;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Year;
+
+
+public class CustomerPage extends GridPane
+{
+    private GymData gymData;
+
+
+
+    /**--------------------------------------------Texts and TextFields---------------------------------------------*/
+    private Text txtId = new Text("ID:"); private TextField tfId = new TextField();
+    private Text txtFname = new Text("First Name:"); private TextField tfFname = new TextField();
+    private Text txtLname = new Text("Last Name:"); private TextField tfLname = new TextField();
+    private Text txtPhoneNumber = new Text("Phone Number:"); private TextField tfPhoneNumber = new TextField();
+    private Text txtEmail = new Text("Email:"); private TextField tfEmail = new TextField();
+    private Text txtYearOfBirth = new Text("Year of Birth:"); private TextField tfYearOfBirth = new TextField();
+    private Text txtStartDate = new Text("Start date:"); private DatePicker dtStartDate = new DatePicker();
+    private Text txtEndDate = new Text("End date:"); private DatePicker dtEndDate = new DatePicker();
+    private Text txtStatus = new Text("Active:"); private CheckBox cbStatus = new CheckBox();
+
+
+    Label lblStatus = new Label(txtStatus.getText(), cbStatus);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**--------------------------------------------------Fonts and Styles----------------------------------------------*/
+    private Font ft1 = Font.font("Calibri", FontWeight.SEMI_BOLD, FontPosture.REGULAR, 20);
+    private String tfUnselectedStyle = "-fx-background-color: #8CDBA9; -fx-background-radius : 5;"
+            + " -fx-border-color : black ; -fx-border-width : 2px; -fx-border-radius : 5;" ;
+    private String tfSelectedStyle = "-fx-background-color: #B4EDC5; -fx-background-radius : 5;"
+            + " -fx-border-color : black ; -fx-border-width : 2px; -fx-border-radius : 5;" ;
+    private String btUnclickedStyle = "-fx-background-radius: 15px ;"
+            + "-fx-background-color: #A9CCE3;"
+            + "-fx-border-radius : 15px;"
+            + "-fx-border-width : 2px;"
+            + "-fx-border-color : darkblue;";
+    private String btClickedStyle = "-fx-background-radius: 15px ;"
+            + "-fx-background-color: #42647F;"
+            + "-fx-border-radius : 15px;"
+            + "-fx-border-width : 2px;"
+            + "-fx-border-color : darkblue;";
+
+    private String dtStyle = "-fx-control-inner-background: #8DC5FF ;-fx-background-radius : 5;"
+            + "-fx-border-color : black ; -fx-border-width : 2px; -fx-border-radius : 5;";
+    private Font ft2 = Font.font("Calibri", FontWeight.EXTRA_BOLD, FontPosture.REGULAR, 20);
+    private Color statusCheckedColor = Color.LIMEGREEN;
+    private Color statusUncheckedColor = Color.RED;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**-----------------------------------------------------ERROR texts-----------------------------------------------*/
+
+    private Text txtFnameError = new Text("First name is required.");
+    private Text txtLnameError = new Text("Last name is required.");
+    private Text txtPhoneNumberError = new Text("Phone number is required");
+    private Text txtEmailError = new Text("Invalid email format.");
+    private Text txtYearOfBirthError = new Text("Invalid year.");
+    private Text txtDatesError = new Text("Invalid Dates.");
+    private Text txtEndDateError = new Text("Invalid end date");
+
+
+    private Color red = new Color(1,0,0,1);
+    private Color transparent = new Color(1,1,1,0);
+    private Font ft3 = Font.font("Calibri", FontWeight.NORMAL, FontPosture.REGULAR, 15);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**-----------------------------------------------------Buttons------------------------------------------------*/
+    private Button btAdd = new Button("Add");
+    private Button btDelete = new Button("Delete");
+    private Button btUpdate = new Button("Update");
+    private Button btClear = new Button("Clear");
+
+
+
+
+
+
+
+
+
+
+
+
+    /**-------------------------------------------------Constructor---------------------------------------------*/
+    public CustomerPage(GymData gymData)
+    {
+        /**-----------------------getting the gymData variable-------------------*/
+        this.gymData = gymData;
+
+
+
+
+
+        /**------------Overall alignment and design of this GridPane------------*/
+        setVgap(2);
+        setHgap(10);
+        setAlignment(Pos.TOP_CENTER);
+        setPadding(new Insets(20,10,20,10));
+
+
+
+
+
+
+
+        /**------------------------------ID UNEDITABLE--------------------------*/
+        tfId.setEditable(false);
+
+
+
+
+
+
+
+        /**----------------------Fonts for texts-----------------------*/
+        txtId.setFont(ft1);
+        txtFname.setFont(ft1);
+        txtLname.setFont(ft1);
+        txtPhoneNumber.setFont(ft1);
+        txtEmail.setFont(ft1);
+        txtYearOfBirth.setFont(ft1);
+        txtStartDate.setFont(ft1);
+        txtEndDate.setFont(ft1);
+        txtStatus.setFont(ft1);
+
+
+
+
+
+
+
+
+
+        /**--------Editing Width and Height for TextFields----------*/
+        int a = 80;
+        int b = 250;
+        tfId.setMaxWidth(a);
+        tfFname.setMaxWidth(b); tfFname.setMinWidth(b);
+        tfLname.setMaxWidth(b); tfLname.setMinWidth(b);
+        tfPhoneNumber.setMaxWidth(b); tfPhoneNumber.setMinWidth(b);
+        tfEmail.setMaxWidth(b); tfEmail.setMinWidth(b);
+        tfYearOfBirth.setMaxWidth(a); tfYearOfBirth.setMinWidth(a);
+        dtStartDate.setMaxWidth(120); dtStartDate.setMinWidth(120);
+        dtEndDate.setMaxWidth(120);  dtEndDate.setMinWidth(120);
+
+
+        lblStatus.setFont(ft1);
+        lblStatus.setContentDisplay(ContentDisplay.RIGHT);
+        lblStatus.setTextFill(statusCheckedColor);
+
+
+
+        cbStatus.setSelected(true);
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /**---------------------------Editing Buttons Size, Font, Margin-------------------*/
+
+        btAdd.setPrefWidth(100);
+        btDelete.setPrefWidth(100);
+        btUpdate.setPrefWidth(100);
+        btClear.setPrefWidth(100);
+
+        btAdd.setFont(ft2);
+        btDelete.setFont(ft2);
+        btUpdate.setFont(ft2);
+        btClear.setFont(ft2);
+
+
+
+        GridPane.setMargin(btAdd, new Insets(5,0,5,0));
+        GridPane.setMargin(btDelete, new Insets(5,0,5,0));
+        GridPane.setMargin(btUpdate, new Insets(5,0,5,0));
+        GridPane.setMargin(btClear, new Insets(5,0,5,0));
+
+
+
+
+
+
+
+
+
+
+
+
+        /**----------------------Editing TextField & Button colors-------------------*/
+
+
+        tfId.setStyle("-fx-background-color: #6E9E7E; -fx-background-radius : 5;"
+                + " -fx-border-color : black ; -fx-border-width : 2px; -fx-border-radius : 5;");
+        tfFname.setStyle(tfUnselectedStyle);
+        tfLname.setStyle(tfUnselectedStyle);
+        tfPhoneNumber.setStyle(tfUnselectedStyle);
+        tfEmail.setStyle(tfUnselectedStyle);
+        tfYearOfBirth.setStyle(tfUnselectedStyle);
+        dtStartDate.setStyle(dtStyle);
+        dtEndDate.setStyle(dtStyle);
+        btAdd.setStyle(btUnclickedStyle);
+        btDelete.setStyle(btUnclickedStyle);
+        btUpdate.setStyle(btUnclickedStyle);
+        btClear.setStyle(btUnclickedStyle);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /**------------TextFields events -> changing Color  && error messages disappear---------*/
+
+        tfFname.focusedProperty().addListener((obs, oldVal, newVal) ->
+        {
+            if (newVal)
+            {
+                tfSelectedStyle(tfFname);
+                txtFnameError.setFill(Color.TRANSPARENT);
+            }
+        });
+
+        tfLname.focusedProperty().addListener((obs, oldVal, newVal) ->
+        {
+            if (newVal)
+            {
+                tfSelectedStyle(tfLname);
+                txtLnameError.setFill(Color.TRANSPARENT);
+            }
+        });
+
+        tfPhoneNumber.focusedProperty().addListener((obs, oldVal, newVal) ->
+        {
+            if (newVal)
+            {
+                tfSelectedStyle(tfPhoneNumber);
+                txtPhoneNumberError.setFill(Color.TRANSPARENT);
+            }
+        });
+
+        tfEmail.focusedProperty().addListener((obs, oldVal, newVal) ->
+        {
+            if (newVal)
+            {
+                tfSelectedStyle(tfEmail);
+                txtEmailError.setFill(Color.TRANSPARENT);
+            }
+        });
+
+        tfYearOfBirth.focusedProperty().addListener((obs, oldVal, newVal) ->
+        {
+            if (newVal)
+            {
+                tfSelectedStyle(tfYearOfBirth);
+                txtYearOfBirthError.setFill(Color.TRANSPARENT);
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /**-----------------Editing error texts Font, Color, Alignment, Margin---------------------*/
+        txtFnameError.setFont(ft3);
+        txtLnameError.setFont(ft3);
+        txtDatesError.setFont(ft3);
+        txtYearOfBirthError.setFont(ft3);
+        txtPhoneNumberError.setFont(ft3);
+        txtEmailError.setFont(ft3);
+
+        txtFnameError.setFill(Color.TRANSPARENT);
+        txtLnameError.setFill(Color.TRANSPARENT);
+        txtDatesError.setFill(Color.TRANSPARENT);
+        txtYearOfBirthError.setFill(Color.TRANSPARENT);
+        txtPhoneNumberError.setFill(Color.TRANSPARENT);
+        txtEmailError.setFill(Color.TRANSPARENT);
+
+        GridPane.setHalignment(txtFnameError, HPos.RIGHT);
+        GridPane.setHalignment(txtLnameError, HPos.RIGHT);
+        GridPane.setHalignment(txtDatesError, HPos.LEFT);
+        GridPane.setHalignment(txtYearOfBirthError, HPos.LEFT);
+        GridPane.setHalignment(txtPhoneNumberError, HPos.LEFT);
+        GridPane.setHalignment(txtEmailError, HPos.LEFT);
+
+        GridPane.setValignment(txtFnameError, VPos.TOP);
+        GridPane.setValignment(txtLnameError, VPos.TOP);
+        GridPane.setValignment(txtDatesError, VPos.TOP);
+        GridPane.setValignment(txtYearOfBirthError, VPos.TOP);
+        GridPane.setValignment(txtPhoneNumberError, VPos.TOP);
+        GridPane.setValignment(txtEmailError, VPos.TOP);
+
+        GridPane.setMargin(txtFnameError, new Insets(-10,0,0,0));
+        GridPane.setMargin(txtLnameError, new Insets(-10,0,0,0));
+        GridPane.setMargin(txtDatesError, new Insets(5,0,0,-0));
+        GridPane.setMargin(txtYearOfBirthError, new Insets(-10,0,0,0));
+        GridPane.setMargin(txtPhoneNumberError, new Insets(-10,0,0,0));
+        GridPane.setMargin(txtEmailError, new Insets(-10,0,0,0));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /**----------------------Adding nodes to GridPane------------------------*/
+
+
+        add(txtId, 0,0); add(tfId, 1,0); add(lblStatus, 2,0);
+
+        add(txtFname, 0,2); add(tfFname, 1,2);
+        add(txtFnameError, 1, 3);
+
+        add(txtLname, 0,4); add(tfLname, 1,4);
+        add(txtLnameError, 1, 5);
+
+        add(txtPhoneNumber, 3,2); add(tfPhoneNumber, 4,2);
+        add(txtPhoneNumberError,4,3);
+
+        add(txtEmail, 3,4); add(tfEmail, 4,4);
+        add(txtEmailError, 4,5);
+
+        add(txtYearOfBirth, 0,6); add(tfYearOfBirth, 1,6);
+        add(txtYearOfBirthError, 1,7);
+
+
+        add(new Text("             "), 7,0);
+        add(btAdd, 8,0);
+        add(btDelete, 8, 2);
+        add(btUpdate, 8, 4);
+        add(btClear, 8, 6);
+
+
+        add(txtStartDate, 0,8); add(dtStartDate,1,8);
+        add(txtDatesError, 2, 9);
+
+        add(txtEndDate, 2,8); add(dtEndDate, 3,8);
+
+
+
+
+
+
+
+
+
+
+
+        /**---------------------------------ColumnSpan-----------------------------------*/
+        GridPane.setColumnSpan(tfFname,2);
+        GridPane.setColumnSpan(tfLname,2);
+        GridPane.setColumnSpan(tfPhoneNumber,2);
+        GridPane.setColumnSpan(tfEmail,2);
+
+
+
+
+
+
+
+
+
+
+
+        /**-----------------------------------Alignment of Texts---------------------------*/
+        GridPane.setHalignment(txtId, HPos.RIGHT);
+        GridPane.setHalignment(txtFname, HPos.RIGHT);
+        GridPane.setHalignment(txtLname, HPos.RIGHT);
+        GridPane.setHalignment(txtPhoneNumber, HPos.RIGHT);
+        GridPane.setHalignment(txtEmail, HPos.RIGHT);
+        GridPane.setHalignment(txtYearOfBirth, HPos.RIGHT);
+        GridPane.setHalignment(txtStartDate, HPos.RIGHT);
+        GridPane.setHalignment(txtEndDate, HPos.RIGHT);
+        GridPane.setHalignment(txtStatus, HPos.RIGHT);
+
+        GridPane.setHalignment(lblStatus,HPos.LEFT);
+
+
+
+
+
+
+
+
+
+
+
+
+
+        btClear.setOnAction(e ->
+        {
+            buttonClickedAnimation((Button) e.getSource());
+            clear();
+        });
+
+        btAdd.setOnAction(e ->
+        {
+            buttonClickedAnimation((Button) e.getSource());
+            add();
+        });
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private void buttonClickedAnimation(Button bt)
+    {
+        bt.setStyle(btClickedStyle);
+
+        Timeline animation = new Timeline(new KeyFrame(Duration.millis(180), e -> {}));
+
+        animation.setOnFinished(e -> {bt.setStyle(btUnclickedStyle);});
+
+        animation.setCycleCount(1);
+        animation.play();
+
+    }
+
+
+
+    private void tfSelectedStyle(TextField tfSelected) {
+        if (tfSelected == tfFname)
+            tfFname.setStyle(tfSelectedStyle);
+        else
+            tfFname.setStyle(tfUnselectedStyle);
+
+        if (tfSelected == tfLname)
+            tfLname.setStyle(tfSelectedStyle);
+        else
+            tfLname.setStyle(tfUnselectedStyle);
+
+        if (tfSelected == tfPhoneNumber)
+            tfPhoneNumber.setStyle(tfSelectedStyle);
+        else
+            tfPhoneNumber.setStyle(tfUnselectedStyle);
+
+        if (tfSelected == tfEmail)
+            tfEmail.setStyle(tfSelectedStyle);
+        else
+            tfEmail.setStyle(tfUnselectedStyle);
+
+        if (tfSelected == tfYearOfBirth)
+            tfYearOfBirth.setStyle(tfSelectedStyle);
+        else
+            tfYearOfBirth.setStyle(tfUnselectedStyle);
+
+    }
+
+    private void clear()
+    {
+        tfFname.setStyle(tfUnselectedStyle);
+        tfLname.setStyle(tfUnselectedStyle);
+        tfPhoneNumber.setStyle(tfUnselectedStyle);
+        tfEmail.setStyle(tfUnselectedStyle);
+        tfYearOfBirth.setStyle(tfUnselectedStyle);
+
+        tfId.setText("");
+        tfFname.setText("");
+        tfLname.setText("");
+        tfPhoneNumber.setText("");
+        tfEmail.setText("");
+        tfYearOfBirth.setText("");
+        dtStartDate.setValue(null);
+        dtEndDate.setValue(null);
+
+        txtFnameError.setFill(Color.TRANSPARENT);
+        txtLnameError.setFill(Color.TRANSPARENT);
+        txtDatesError.setFill(Color.TRANSPARENT);
+        txtYearOfBirthError.setFill(Color.TRANSPARENT);
+        txtPhoneNumberError.setFill(Color.TRANSPARENT);
+        txtEmailError.setFill(Color.TRANSPARENT);
+    }
+
+
+
+
+    private void add()
+    {
+        String fname = tfFname.getText();
+        String lname = tfLname.getText();
+        String phoneNumber = tfPhoneNumber.getText();
+        String email = tfEmail.getText();
+        int yob = Year.now().getValue();
+        LocalDate startDate = dtStartDate.getValue();
+        LocalDate endDate = dtEndDate.getValue();
+        Boolean foundError = false;
+
+
+
+        try
+        {
+            yob = Integer.parseInt(tfYearOfBirth.getText());
+            if(yob > Year.now().getValue())
+            {
+                foundError = true;
+                txtYearOfBirthError.setFill(Color.RED);
+            }
+        }
+        catch (NumberFormatException exc)
+        {
+            String str = tfYearOfBirth.getText();
+            if (!str.isEmpty())
+            {
+                foundError = true;
+                txtYearOfBirthError.setFill(Color.RED);
+            }
+        }
+
+        if((startDate == null) || (endDate == null))
+        {
+            foundError = true;
+            txtDatesError.setFill(Color.RED);
+        }
+        else if (startDate.compareTo(endDate) > 0)
+        {
+            foundError = true;
+            txtDatesError.setFill(Color.RED);
+        }
+
+
+        if(fname.equals(""))
+        {
+            foundError = true;
+            txtFnameError.setFill(Color.RED);
+        }
+
+        if(lname.equals(""))
+        {
+            foundError = true;
+            txtLnameError.setFill(Color.RED);
+        }
+
+        if(phoneNumber.equals(""))
+        {
+            foundError = true;
+            txtPhoneNumberError.setFill(Color.RED);
+        }
+
+        if(!Person.checkEmail(email))
+        {
+            foundError = true;
+            txtEmailError.setFill(Color.RED);
+        }
+
+        if(!foundError)
+        {
+            tfId.setText("");
+            tfFname.setText("");
+            tfLname.setText("");
+            tfPhoneNumber.setText("");
+            tfEmail.setText("");
+            dtStartDate.setValue(null);
+            dtEndDate.setValue(null);
+            tfYearOfBirth.setText("");
+
+            txtFnameError.setFill(Color.TRANSPARENT);
+            txtLnameError.setFill(Color.TRANSPARENT);
+            txtDatesError.setFill(Color.TRANSPARENT);
+            txtYearOfBirthError.setFill(Color.TRANSPARENT);
+            txtPhoneNumberError.setFill(Color.TRANSPARENT);
+            txtEmailError.setFill(Color.TRANSPARENT);
+            try
+            {
+                gymData.getCustomers().add(new Customer(fname, lname, phoneNumber, email, yob, startDate, endDate));
+                for(Customer cust : gymData.getCustomers())
+                {
+                    System.out.println(cust);
+                }
+            }
+            catch (IllegalArgumentException exc)
+            {
+                System.out.println(LocalDateTime.now() + "   Employee Page : Add button : Constructor : " + exc.getMessage());
+            }
+        }
+    }
+
+
+
+
+}
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------EmployeePage Class-----------------------------------------------------------------------
+
+
+package com.example.demo;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.util.Duration;
+import java.time.Year;
+import java.time.LocalDateTime;
+
+public class EmployeePage extends GridPane
+{
+    private GymData gymData;
+
+
+
+    /**--------------------------------------------Texts and TextFields---------------------------------------------*/
+    private Text txtId = new Text("ID:"); private TextField tfId = new TextField();
+    private Text txtFname = new Text("First Name:"); private TextField tfFname = new TextField();
+    private Text txtLname = new Text("Last Name:"); private TextField tfLname = new TextField();
+    private Text txtPhoneNumber = new Text("Phone Number:"); private TextField tfPhoneNumber = new TextField();
+    private Text txtEmail = new Text("Email:"); private TextField tfEmail = new TextField();
+    private Text txtYearOfBirth = new Text("Year of Birth:"); private TextField tfYearOfBirth = new TextField();
+    private Text txtPost = new Text("Post:"); private TextField tfPost = new TextField();
+    private Text txtSalary = new Text("Salary:"); private TextField tfSalary = new TextField();
+    private Text txtStatus = new Text("Active:"); private CheckBox cbStatus = new CheckBox();
+
+
+    Label lblStatus = new Label(txtStatus.getText(), cbStatus);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**--------------------------------------------------Fonts and Styles----------------------------------------------*/
+    private Font ft1 = Font.font("Calibri", FontWeight.SEMI_BOLD, FontPosture.REGULAR, 20);
+    private String tfUnselectedStyle = "-fx-background-color: #8CDBA9; -fx-background-radius : 5;"
+            + " -fx-border-color : black ; -fx-border-width : 2px; -fx-border-radius : 5;" ;
+    private String tfSelectedStyle = "-fx-background-color: #B4EDC5; -fx-background-radius : 5;"
+            + " -fx-border-color : black ; -fx-border-width : 2px; -fx-border-radius : 5;" ;
+    private String btUnclickedStyle = "-fx-background-radius: 15px ;"
+            + "-fx-background-color: #A9CCE3;"
+            + "-fx-border-radius : 15px;"
+            + "-fx-border-width : 2px;"
+            + "-fx-border-color : darkblue;";
+    private String btClickedStyle = "-fx-background-radius: 15px ;"
+            + "-fx-background-color: #42647F;"
+            + "-fx-border-radius : 15px;"
+            + "-fx-border-width : 2px;"
+            + "-fx-border-color : darkblue;";
+    private Font ft2 = Font.font("Calibri", FontWeight.EXTRA_BOLD, FontPosture.REGULAR, 20);
+    private Color statusCheckedColor = Color.LIMEGREEN;
+    private Color statusUncheckedColor = Color.RED;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**-----------------------------------------------------ERROR texts-----------------------------------------------*/
+
+    private Text txtFnameError = new Text("First name is required.");
+    private Text txtLnameError = new Text("Last name is required.");
+    private Text txtSalaryError = new Text("Invalid Salary.");
+    private Text txtYearOfBirthError = new Text("Invalid year.");
+    private Text txtPhoneNumberError = new Text("Phone number is required.");
+    private Text txtEmailError = new Text("Invalid email format.");
+
+
+    private Color red = new Color(1,0,0,1);
+    private Color transparent = new Color(1,1,1,0);
+    private Font ft3 = Font.font("Calibri", FontWeight.NORMAL, FontPosture.REGULAR, 15);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**-----------------------------------------------------Buttons------------------------------------------------*/
+    private Button btAdd = new Button("Add");
+    private Button btDelete = new Button("Delete");
+    private Button btUpdate = new Button("Update");
+    private Button btClear = new Button("Clear");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**------------------------------------------------Constructor--------------------------------------------*/
+
+    public EmployeePage(GymData gymData)
+    {
+        /**-----------------------getting the gymData variable-------------------*/
+        this.gymData = gymData;
+
+
+
+
+
+        /**------------Overall alignment and design of this GridPane------------*/
+        setVgap(2);
+        setHgap(10);
+        setAlignment(Pos.TOP_CENTER);
+        setPadding(new Insets(20,10,20,10));
+
+
+
+
+
+
+
+        /**------------------------------ID UNEDITABLE--------------------------*/
+        tfId.setEditable(false);
+
+
+
+
+
+
+
+        /**----------------------Fonts for texts-----------------------*/
+        txtId.setFont(ft1);
+        txtFname.setFont(ft1);
+        txtLname.setFont(ft1);
+        txtPhoneNumber.setFont(ft1);
+        txtEmail.setFont(ft1);
+        txtYearOfBirth.setFont(ft1);
+        txtPost.setFont(ft1);
+        txtSalary.setFont(ft1);
+        txtStatus.setFont(ft1);
+
+
+
+
+
+
+
+
+
+        /**--------Editing Width and Height for TextFields----------*/
+        int a = 80;
+        int b = 250;
+        tfId.setMaxWidth(a);
+        tfFname.setMaxWidth(b); tfFname.setMinWidth(b);
+        tfLname.setMaxWidth(b); tfLname.setMinWidth(b);
+        tfPhoneNumber.setMaxWidth(b); tfPhoneNumber.setMinWidth(b);
+        tfEmail.setMaxWidth(b); tfEmail.setMinWidth(b);
+        tfYearOfBirth.setMaxWidth(a); tfYearOfBirth.setMinWidth(a);
+        tfPost.setMaxWidth(b); tfPost.setMinWidth(b);
+        tfSalary.setMaxWidth(a);  tfSalary.setMinWidth(a); tfSalary.setMaxHeight(30); tfSalary.setMinHeight(30);
+
+
+        lblStatus.setFont(ft1);
+        lblStatus.setContentDisplay(ContentDisplay.RIGHT);
+        lblStatus.setTextFill(statusCheckedColor);
+
+
+
+        cbStatus.setSelected(true);
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /**---------------------------Editing Buttons Size, Font, Margin-------------------*/
+
+        btAdd.setPrefWidth(100);
+        btDelete.setPrefWidth(100);
+        btUpdate.setPrefWidth(100);
+        btClear.setPrefWidth(100);
+
+        btAdd.setFont(ft2);
+        btDelete.setFont(ft2);
+        btUpdate.setFont(ft2);
+        btClear.setFont(ft2);
+
+
+
+        GridPane.setMargin(btAdd, new Insets(5,0,5,0));
+        GridPane.setMargin(btDelete, new Insets(5,0,5,0));
+        GridPane.setMargin(btUpdate, new Insets(5,0,5,0));
+        GridPane.setMargin(btClear, new Insets(5,0,5,0));
+
+
+
+
+
+
+
+
+
+
+
+
+        /**----------------------Editing TextField & Button colors-------------------*/
+
+
+        tfId.setStyle("-fx-background-color: #6E9E7E; -fx-background-radius : 5;"
+                + " -fx-border-color : black ; -fx-border-width : 2px; -fx-border-radius : 5;");
+        tfFname.setStyle(tfUnselectedStyle);
+        tfLname.setStyle(tfUnselectedStyle);
+        tfPhoneNumber.setStyle(tfUnselectedStyle);
+        tfEmail.setStyle(tfUnselectedStyle);
+        tfYearOfBirth.setStyle(tfUnselectedStyle);
+        tfPost.setStyle(tfUnselectedStyle);
+        tfSalary.setStyle(tfUnselectedStyle);
+        btAdd.setStyle(btUnclickedStyle);
+        btDelete.setStyle(btUnclickedStyle);
+        btUpdate.setStyle(btUnclickedStyle);
+        btClear.setStyle(btUnclickedStyle);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /**------------TextFields events -> changing Color  && error messages disappear---------*/
+
+        tfFname.focusedProperty().addListener((obs, oldVal, newVal) ->
+            {
+                if (newVal)
+                {
+                    tfSelectedStyle(tfFname);
+                    txtFnameError.setFill(Color.TRANSPARENT);
+                }
+            });
+
+        tfLname.focusedProperty().addListener((obs, oldVal, newVal) ->
+        {
+            if (newVal)
+            {
+                tfSelectedStyle(tfLname);
+                txtLnameError.setFill(Color.TRANSPARENT);
+            }
+        });
+
+        tfPhoneNumber.focusedProperty().addListener((obs, oldVal, newVal) ->
+        {
+            if (newVal)
+            {
+                tfSelectedStyle(tfPhoneNumber);
+                txtPhoneNumberError.setFill(Color.TRANSPARENT);
+            }
+        });
+
+        tfEmail.focusedProperty().addListener((obs, oldVal, newVal) ->
+        {
+            if (newVal)
+            {
+                tfSelectedStyle(tfEmail);
+                txtEmailError.setFill(Color.TRANSPARENT);
+            }
+        });
+
+        tfYearOfBirth.focusedProperty().addListener((obs, oldVal, newVal) ->
+        {
+            if (newVal)
+            {
+                tfSelectedStyle(tfYearOfBirth);
+                txtYearOfBirthError.setFill(Color.TRANSPARENT);
+            }
+        });
+
+        tfSalary.focusedProperty().addListener((obs, oldVal, newVal) ->
+        {
+            if (newVal)
+            {
+                tfSelectedStyle(tfSalary);
+                txtSalaryError.setFill(Color.TRANSPARENT);
+            }
+        });
+
+        tfPost.focusedProperty().addListener((obs, oldVal, newVal) ->
+        {
+            if (newVal)
+                tfSelectedStyle(tfPost);
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /**-----------------Editing error texts Font, Color, Alignment, Margin---------------------*/
+        txtFnameError.setFont(ft3);
+        txtLnameError.setFont(ft3);
+        txtSalaryError.setFont(ft3);
+        txtYearOfBirthError.setFont(ft3);
+        txtPhoneNumberError.setFont(ft3);
+        txtEmailError.setFont(ft3);
+
+        txtFnameError.setFill(Color.TRANSPARENT);
+        txtLnameError.setFill(Color.TRANSPARENT);
+        txtSalaryError.setFill(Color.TRANSPARENT);
+        txtYearOfBirthError.setFill(Color.TRANSPARENT);
+        txtPhoneNumberError.setFill(Color.TRANSPARENT);
+        txtEmailError.setFill(Color.TRANSPARENT);
+
+        GridPane.setHalignment(txtFnameError, HPos.RIGHT);
+        GridPane.setHalignment(txtLnameError, HPos.RIGHT);
+        GridPane.setHalignment(txtSalaryError, HPos.RIGHT);
+        GridPane.setHalignment(txtYearOfBirthError, HPos.LEFT);
+        GridPane.setHalignment(txtPhoneNumberError, HPos.LEFT);
+        GridPane.setHalignment(txtEmailError, HPos.LEFT);
+
+        GridPane.setValignment(txtFnameError, VPos.TOP);
+        GridPane.setValignment(txtLnameError, VPos.TOP);
+        GridPane.setValignment(txtSalaryError, VPos.TOP);
+        GridPane.setValignment(txtYearOfBirthError, VPos.TOP);
+        GridPane.setValignment(txtPhoneNumberError, VPos.TOP);
+        GridPane.setValignment(txtEmailError, VPos.TOP);
+
+        GridPane.setMargin(txtFnameError, new Insets(-10,0,0,0));
+        GridPane.setMargin(txtLnameError, new Insets(-10,0,0,0));
+        GridPane.setMargin(txtSalaryError, new Insets(-10,0,0,0));
+        GridPane.setMargin(txtYearOfBirthError, new Insets(-10,0,0,0));
+        GridPane.setMargin(txtPhoneNumberError, new Insets(-10,0,0,0));
+        GridPane.setMargin(txtEmailError, new Insets(-10,0,0,0));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /**----------------------Adding nodes to GridPane------------------------*/
+
+
+        add(txtId, 0,0); add(tfId, 1,0); add(lblStatus, 2,0);
+
+        add(txtFname, 0,2); add(tfFname, 1,2);
+        add(txtFnameError, 1, 3);
+
+        add(txtLname, 0,4); add(tfLname, 1,4);
+        add(txtLnameError, 1, 5);
+
+        add(txtPhoneNumber, 4,2); add(tfPhoneNumber, 5,2);
+        add(txtPhoneNumberError,5,3);
+
+        add(txtEmail, 4,4); add(tfEmail, 5,4);
+        add(txtEmailError, 5,5);
+
+        add(txtYearOfBirth, 0,6); add(tfYearOfBirth, 1,6);
+        add(txtYearOfBirthError, 1,7);
+
+        add(txtSalary, 1,6); add(tfSalary,2,6);
+        add(txtSalaryError, 2, 7);
+
+        add(txtPost, 4,6); add(tfPost, 5,6);
+
+        add(new Text("             "), 6,0);
+        add(btAdd, 7,0);
+        add(btDelete, 7, 2);
+        add(btUpdate, 7, 4);
+        add(btClear, 7, 6);
+
+
+
+
+
+
+
+
+
+
+
+        /**---------------------------------ColumnSpan-----------------------------------*/
+        GridPane.setColumnSpan(tfFname,2);
+        GridPane.setColumnSpan(tfLname,2);
+        GridPane.setColumnSpan(tfPhoneNumber,2);
+        GridPane.setColumnSpan(tfEmail,2);
+
+
+
+
+
+
+
+
+
+
+
+        /**-----------------------------------Alignment of Texts---------------------------*/
+        GridPane.setHalignment(txtId, HPos.RIGHT);
+        GridPane.setHalignment(txtFname, HPos.RIGHT);
+        GridPane.setHalignment(txtLname, HPos.RIGHT);
+        GridPane.setHalignment(txtPhoneNumber, HPos.RIGHT);
+        GridPane.setHalignment(txtEmail, HPos.RIGHT);
+        GridPane.setHalignment(txtYearOfBirth, HPos.RIGHT);
+        GridPane.setHalignment(txtPost, HPos.RIGHT);
+        GridPane.setHalignment(txtSalary, HPos.RIGHT); GridPane.setMargin(txtSalary, new Insets(0, -25, 0, 0));
+        GridPane.setHalignment(tfSalary,HPos.RIGHT);
+        GridPane.setHalignment(txtStatus, HPos.RIGHT);
+
+        GridPane.setHalignment(lblStatus,HPos.LEFT);
+
+
+
+
+
+
+
+        /**-------------------CheckBox event -> color change of Text----------------*/
+        cbStatus.setOnAction(e -> changeStatusColor());
+
+
+
+
+
+
+
+        /**-------------------------Buttons events--------------------------*/
+        btClear.setOnAction(e ->
+            {
+                buttonClickedAnimation((Button) e.getSource());
+                clear();
+            });
+
+        btAdd.setOnAction(e ->
+             {
+                 buttonClickedAnimation((Button) e.getSource());
+                 add();
+             });
+    }
+
+    /**---------------------------------------------End of Constructor-------------------------------------------*/
+
+
+
+
+
+
+
+
+
+
+
+
+    /**---------------------------------------------------Functions----------------------------------------------*/
+    private void changeStatusColor()
+    {
+        if(cbStatus.isSelected())
+            lblStatus.setTextFill(statusCheckedColor);
+        else
+            lblStatus.setTextFill(statusUncheckedColor);
+    }
+
+
+
+    private void buttonClickedAnimation(Button bt)
+    {
+        bt.setStyle(btClickedStyle);
+
+        Timeline animation = new Timeline(new KeyFrame(Duration.millis(180), e -> {}));
+
+        animation.setOnFinished(e -> {bt.setStyle(btUnclickedStyle);});
+
+        animation.setCycleCount(1);
+        animation.play();
+
+    }
+
+    private void tfSelectedStyle(TextField tfSelected)
+    {
+        if(tfSelected == tfFname)
+            tfFname.setStyle(tfSelectedStyle);
+        else
+            tfFname.setStyle(tfUnselectedStyle);
+
+        if(tfSelected == tfLname)
+            tfLname.setStyle(tfSelectedStyle);
+        else
+            tfLname.setStyle(tfUnselectedStyle);
+
+        if(tfSelected == tfPhoneNumber)
+            tfPhoneNumber.setStyle(tfSelectedStyle);
+        else
+            tfPhoneNumber.setStyle(tfUnselectedStyle);
+
+        if(tfSelected == tfEmail)
+            tfEmail.setStyle(tfSelectedStyle);
+        else
+            tfEmail.setStyle(tfUnselectedStyle);
+
+        if(tfSelected == tfYearOfBirth)
+            tfYearOfBirth.setStyle(tfSelectedStyle);
+        else
+            tfYearOfBirth.setStyle(tfUnselectedStyle);
+
+        if(tfSelected == tfPost)
+            tfPost.setStyle(tfSelectedStyle);
+        else
+            tfPost.setStyle(tfUnselectedStyle);
+
+        if(tfSelected == tfSalary)
+            tfSalary.setStyle(tfSelectedStyle);
+        else
+            tfSalary.setStyle(tfUnselectedStyle);
+    }
+
+
+    private void clear()
+    {
+        tfFname.setStyle(tfUnselectedStyle);
+        tfLname.setStyle(tfUnselectedStyle);
+        tfPhoneNumber.setStyle(tfUnselectedStyle);
+        tfEmail.setStyle(tfUnselectedStyle);
+        tfYearOfBirth.setStyle(tfUnselectedStyle);
+        tfPost.setStyle(tfUnselectedStyle);
+        tfSalary.setStyle(tfUnselectedStyle);
+
+        tfId.setText("");
+        tfFname.setText("");
+        tfLname.setText("");
+        tfPhoneNumber.setText("");
+        tfEmail.setText("");
+        tfYearOfBirth.setText("");
+        tfPost.setText("");
+        tfSalary.setText("");
+
+        txtFnameError.setFill(Color.TRANSPARENT);
+        txtLnameError.setFill(Color.TRANSPARENT);
+        txtSalaryError.setFill(Color.TRANSPARENT);
+        txtYearOfBirthError.setFill(Color.TRANSPARENT);
+        txtPhoneNumberError.setFill(Color.TRANSPARENT);
+        txtEmailError.setFill(Color.TRANSPARENT);
+    }
+
+    private void add()
+    {
+        String fname = tfFname.getText();
+        String lname = tfLname.getText();
+        String phoneNumber = tfPhoneNumber.getText();
+        String email = tfEmail.getText();
+        String post = tfPost.getText();
+        int yob = Year.now().getValue();
+        float salary = 0;
+        Boolean foundError = false;
+
+
+        try
+        {
+            yob = Integer.parseInt(tfYearOfBirth.getText());
+            if(yob > Year.now().getValue())
+            {
+                foundError = true;
+                txtYearOfBirthError.setFill(Color.RED);
+            }
+        }
+        catch (NumberFormatException exc)
+        {
+            String str = tfYearOfBirth.getText();
+            if (!str.isEmpty())
+            {
+                foundError = true;
+                txtYearOfBirthError.setFill(Color.RED);
+            }
+
+        }
+        try
+        {
+            salary = Float.parseFloat(tfSalary.getText());
+            if(salary < 0)
+            {
+                foundError = true;
+                txtSalaryError.setFill(Color.RED);
+            }
+        }
+        catch (NumberFormatException exc)
+        {
+            String str = tfSalary.getText();
+            if (!str.isEmpty())
+            {
+                foundError = true;
+                txtSalaryError.setFill(Color.RED);
+            }
+        }
+
+
+        if(fname.equals(""))
+        {
+            foundError = true;
+            txtFnameError.setFill(Color.RED);
+        }
+
+        if(lname.equals(""))
+        {
+            foundError = true;
+            txtLnameError.setFill(Color.RED);
+        }
+
+        if(phoneNumber.equals(""))
+        {
+            foundError = true;
+            txtPhoneNumberError.setFill(Color.RED);
+        }
+
+        if(!Person.checkEmail(email))
+        {
+            foundError = true;
+            txtEmailError.setFill(Color.RED);
+        }
+
+
+        if(!foundError)
+        {
+            tfId.setText("");
+            tfFname.setText("");
+            tfLname.setText("");
+            tfPhoneNumber.setText("");
+            tfEmail.setText("");
+            tfSalary.setText("");
+            tfPost.setText("");
+            tfYearOfBirth.setText("");
+
+            txtFnameError.setFill(Color.TRANSPARENT);
+            txtLnameError.setFill(Color.TRANSPARENT);
+            txtSalaryError.setFill(Color.TRANSPARENT);
+            txtYearOfBirthError.setFill(Color.TRANSPARENT);
+            txtPhoneNumberError.setFill(Color.TRANSPARENT);
+            txtEmailError.setFill(Color.TRANSPARENT);
+            try
+            {
+                gymData.getEmployees().add(new Employee(fname, lname, phoneNumber, email, yob,
+                        post, salary));
+            }
+            catch (IllegalArgumentException exc)
+            {
+                System.out.println(LocalDateTime.now() + "   Employee Page : Add button : Constructor : " + exc.getMessage());
+            }
+        }
+
+    }
+
+}
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------LogInPage Class------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.stage.Screen;
+
+public class LogInPage extends StackPane {
+
+    private TextField username;
+    private TextField password;
+    private PasswordField password2;
+    private CheckBox check1;
+    private Button login;
+
+    public LogInPage() {
+        // Create a background image
+        Image bg1 = new Image("C:\\Users\\User\\Desktop\\final project prog\\images\\background.jpg");
+        BackgroundImage background = new BackgroundImage(bg1,
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+        Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+        double screenWidth = screenBounds.getWidth();
+        double screenHeight = screenBounds.getHeight();
+        new BackgroundSize(screenWidth, screenHeight, false, false, false, false);
+
+        // Create a GridPane
+        GridPane gp = new GridPane();
+        gp.setAlignment(Pos.CENTER);
+        gp.setVgap(20);
+
+        // Create an image
+        Image ig1 = new Image("C:\\Users\\User\\Desktop\\final project prog\\images\\logo.jpg");
+        ImageView gym = new ImageView(ig1);
+        gym.setFitWidth(137);
+        gym.setFitHeight(137);
+
+        // Create a StackPane for rectangle
+        StackPane str = new StackPane();
+        Rectangle r1 = new Rectangle();
+        r1.setWidth(460);
+        r1.setHeight(530);
+        r1.setStroke(Color.WHITE);
+        r1.setFill(Color.WHITE);
+        r1.setArcWidth(15);
+        r1.setArcHeight(15);
+        str.getChildren().addAll(r1);
+
+        // Create a stackPane so the text will be at the center
+        Text Welcome = new Text("SIGN IN IN TO YOUR ACCOUNT");
+        Welcome.setFont(Font.font("Open Sans", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        Welcome.setFill(Color.BLACK);
+
+        username = new TextField();
+        username.setPromptText("Username");
+        username.setMinHeight(55);
+        username.setMinWidth(350);
+        username.setStyle("-fx-background-radius: 9;-fx-background-color: lightgrey");
+
+        password = new TextField();
+        password.setVisible(false);
+        password.setPromptText("Password");
+        password.setMinHeight(55);
+        password.setStyle("-fx-background-radius: 9;-fx-background-color: lightgrey");
+
+        password2 = new PasswordField();
+        password2.setVisible(true);
+        password2.setPromptText("Password");
+        password2.setMinHeight(55);
+        password2.setStyle("-fx-background-radius: 9;-fx-background-color: lightgrey");
+        password.textProperty().bindBidirectional(password2.textProperty());
+
+        // Create a borderpane for checkbox
+        check1 = new CheckBox("Show Password");
+        check1.setPadding(new Insets(0, 0, 0, 5));
+
+        login = new Button("LOGIN");
+        login.setMaxSize(500, 250);
+        login.setMinHeight(55);
+        login.setStyle("-fx-background-radius: 9;-fx-color:#8CDBA9");
+
+        // Make a GridPane
+        gp.add(gym, 0, 0);
+        gp.add(Welcome, 0, 1);
+        gp.add(username, 0, 2);
+        gp.add(password, 0, 3);
+        gp.add(password2, 0, 3);
+        gp.add(check1, 0, 4);
+        gp.add(login, 0, 5);
+        GridPane.setHalignment(Welcome, HPos.CENTER);
+        GridPane.setHalignment(gym, HPos.CENTER);
+
+        login.requestFocus();
+
+        str.getChildren().addAll(gp);
+        str.setBackground(new Background(background));
+
+        this.getChildren().add(str);
+
+        login.requestFocus();
+        check1.requestFocus();
+
+        login.setOnAction(event -> cantmakepassnul(password, password2, login, username));
+        check1.setOnAction(event -> showpass(password, password2, check1));
+        username.setOnMouseClicked(event -> removewhite(username));
+        password.setOnMouseClicked(event -> removewhite2(password));
+        password2.setOnMouseClicked(event -> removewhite2(password2));
+    }
+
+    public void cantmakepassnul(TextField pass, PasswordField pass2, Button login, TextField t1) {
+        if (pass.getText().isEmpty()&&pass2.getText().isEmpty()) {
+            pass.setStyle("-fx-border-color: red;-fx-border-radius: 9px;-fx-background-radius: 9;-fx-border-width: 2px");
+            pass2.setStyle("-fx-border-color: red;-fx-border-radius: 9px;-fx-background-radius: 9;-fx-border-width: 2px");
+        }
+        else if(!pass.getText().isEmpty()&&!pass2.getText().isEmpty())
+        {
+            pass.setStyle("-fx-border-color: white;-fx-border-radius: 0px;-fx-background-radius: 9;-fx-border-width: 0px");
+            pass2.setStyle("-fx-border-color: white;-fx-border-radius: 0px;-fx-background-radius: 9;-fx-border-width: 0px");
+        }
+        if(t1.getText().isEmpty())
+        {
+            t1.setStyle("-fx-border-color: red;-fx-border-radius: 9px;-fx-background-radius: 9;-fx-border-width: 2px");
+        }
+        else if(!t1.getText().isEmpty())
+        {
+            t1.setStyle("-fx-border-color: white;-fx-border-radius: 0px;-fx-background-radius: 9;-fx-border-width: 0px");
+        }
+        if(t1.getText().isEmpty()&&(pass.getText().isEmpty()&&pass2.getText().isEmpty()))
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText(null);
+            alert.setContentText("YOU NEED TO ENTER THE PASSWORD AND THE USERNAME!!!!!!!");
+            alert.show();
+
+        }
+        else if(t1.getText().isEmpty())
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText(null);
+            alert.setContentText("YOU NEED TO ENTER THE USERNAME!!!!!!!");
+            alert.show();
+        }
+        else if(pass.getText().isEmpty()&&pass2.getText().isEmpty())
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText(null);
+            alert.setContentText("YOU NEED TO ENTER THE PASSWORD!!!!!!!");
+            alert.show();
+        }
+    }
+
+    public void removewhite(TextField username) {
+        username.setStyle("-fx-border-color: white;-fx-border-radius: 0px;-fx-background-radius: 9;-fx-border-width: 0px");
+
+    }
+
+    public void removewhite2(PasswordField password) {
+        password.setStyle("-fx-border-color: white;-fx-border-radius: 0px;-fx-background-radius: 9;-fx-border-width: 0px");
+
+    }
+
+    public void removewhite2(TextField password) {
+        password.setStyle("-fx-border-color: white;-fx-border-radius: 0px;-fx-background-radius: 9;-fx-border-width:0px");
+
+    }
+
+    public void showpass(TextField pass, PasswordField pass2, CheckBox chck1) {
+        if (chck1.isSelected()) {
+            pass.setText(pass2.getText());
+            pass.setVisible(true);
+            pass2.setVisible(false);
+        } else {
+            pass.setVisible(false);
+            pass2.setVisible(true);
+        }
+
+    }
+}
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------Person Class------------------------------------------------------------------------
+
+package com.example.demo;
+
+import java.time.Year;
+
+public class Person
+{
+
+    private static int idcount = 0;
+    private int id;
+    private String firstName;
+    private String lastName;
+    private String phoneNumber;
+    private String email;
+    private int yearOfBirth;
+
+
+    public Person(String fname, String lname, String phoneNumber, String email, int year)
+            throws IllegalArgumentException
+    {
+        boolean foundError = false;
+
+        if(fname == null)
+        {
+            foundError = true;
+            throw new IllegalArgumentException("First name is empty.");
+        }
+        if(lname == null)
+        {
+            foundError = true;
+            throw new IllegalArgumentException("Last name is empty.");
+        }
+        if (email == null)
+        {
+            foundError = true;
+            throw new IllegalArgumentException("Email is empty.");
+        }
+        if (!checkEmail(email))
+        {
+            foundError = true;
+            throw new IllegalArgumentException("Email has invalid format.");
+        }
+        if (!checkYear(year))
+        {
+            foundError = true;
+            throw new IllegalArgumentException("Year of birth is in the future.");
+        }
+
+
+
+        if(!foundError)
+        {
+            this.firstName = fname;
+            this.lastName = lname;
+            this.phoneNumber = phoneNumber;
+            this.email = email;
+            this.yearOfBirth = year;
+            idcount++;
+            this.id = idcount;
+        }
+
+
+    }
+
+
+
+
+
+
+    /**----------------getters and setter-------------------*/
+    public int getId() {
+        return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String fname) throws IllegalArgumentException{
+        if(fname == null)
+            throw new IllegalArgumentException("First name is empty.");
+        else
+            this.firstName = fname;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lname) throws IllegalArgumentException{
+        if (lname == null)
+            throw new IllegalArgumentException("Last name is empty.");
+        else
+            this.lastName = lname;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) throws IllegalArgumentException{
+        if (email == null)
+            throw new IllegalArgumentException("Email is empty");
+        else if (!checkEmail(email))
+            throw new IllegalArgumentException("Email has invalid format.");
+        else
+            this.email = email;
+    }
+
+    public int getYearOfBirth() {
+        return yearOfBirth;
+    }
+
+    public void setYearOfBirth(int year) throws IllegalArgumentException{
+        if (!checkYear(year))
+            throw new IllegalArgumentException("Year of birth in in the future.");
+        else
+            this.yearOfBirth = year;
+    }
+
+
+
+    public static boolean checkEmail(String email)
+    {
+        int atCounter = 0;
+        int dotCounter = 0;
+        String c;
+        for (int i = 0; i <= email.length() - 1; i++)
+        {
+            c = email.substring(i,i+1);
+            if(c.equals("@"))
+                atCounter++;
+            else if(c.equals("."))
+                dotCounter++;
+        }
+
+        if(atCounter == 1 && dotCounter >= 1)
+            return true;
+        else
+            return false;
+    }
+
+    private boolean checkYear(int year)
+    {
+        Year currentYear = Year.now();
+        if(year <= currentYear.getValue())
+            return true;
+        else
+            return false;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------Customer Class-----------------------------------------------------------------------
+
+
+
+
+
+
+
+
+package com.example.demo;
+
+import java.time.LocalDate;
+
+public class Customer extends Person {
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private Boolean status;
+
+
+    public Customer(String fname, String lname, String phoneNumber, String email, int year,
+                    LocalDate startDate, LocalDate endDate) throws IllegalArgumentException
+    {
+        super(fname, lname, phoneNumber, email, year);
+
+        if (startDate.compareTo(endDate) > 0)
+            throw new IllegalArgumentException("Start date is greater than end date.");
+        else
+        {
+            this.startDate = startDate;
+            this.endDate = endDate;
+            this.status = true;
+        }
+    }
+
+
+
+    public int getId()
+    {
+        return super.getId();
+    }
+
+
+
+
+    public String getFirstName()
+    {
+        return super.getFirstName();
+    }
+    public void setFirstName(String fname) throws IllegalArgumentException
+    {
+        super.setFirstName(fname);
+    }
+
+
+
+
+    public String getLastName()
+    {
+        return super.getLastName();
+    }
+    public void setLastName(String lname) throws IllegalArgumentException
+    {
+        super.setLastName(lname);
+    }
+
+
+
+
+    public String getPhoneNumber()
+    {
+        return super.getPhoneNumber();
+    }
+    public void setPhoneNumber(String phoneNumber)
+    {
+        super.setPhoneNumber(phoneNumber);
+    }
+
+    public String getEmail()
+    {
+        return super.getEmail();
+    }
+    public void setEmail(String email) throws IllegalArgumentException
+    {
+        super.setEmail(email);
+    }
+
+
+
+    public LocalDate getStartDate()
+    {
+        return this.startDate;
+    }
+    public void setStartDate(LocalDate startDate)
+    {
+        if (startDate.compareTo(this.endDate) > 0)
+            throw new IllegalArgumentException("Start date is greater than end date.");
+    }
+
+
+    public LocalDate getEndDate()
+    {
+        return this.endDate;
+    }
+    public void setEndDate(LocalDate endDate)
+    {
+        if(this.startDate.compareTo(endDate) > 0)
+            throw new IllegalArgumentException("start date is greater than end date.");
+    }
+
+
+
+    public boolean getStatus()
+    {
+        return this.status;
+    }
+    public void setStatus (boolean status)
+    {
+        this.status = status;
+    }
+
+
+
+    public String toString()
+    {
+        String str = "\nID : " + super.getId()
+                + "\nFirst name : " + super.getFirstName()
+                + "\nLast name : " + super.getLastName()
+                + "\nPhone number : " + super.getPhoneNumber()
+                + "\nEmail : " + super.getEmail()
+                + "\nStart date : " + this.startDate
+                + "\nEnd date : " + this.endDate
+                + "\nStatus : " + (status ? "Active" : "Not active");
+        return str;
+    }
+
+
+
+}
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------Employee Class------------------------------------------------------------------------
+
+
+
+package com.example.demo;
+
+public class Employee extends Person
+{
+    private String post;
+    private float salary;
+    private boolean status;
+
+
+
+
+
+
+
+    public Employee(String fname, String lname, String phoneNumber, String email, int year,
+                    String post, float salary) throws IllegalArgumentException
+    {
+        super(fname, lname, phoneNumber, email, year);
+        this.post = post;
+        if(salary < 0)
+            throw new IllegalArgumentException("Salary is negative.");
+        else
+            this.salary = salary;
+        this.status = true;
+    }
+
+
+
+
+
+
+
+
+    public int getId()
+    {
+        return super.getId();
+    }
+
+
+
+
+    public String getFirstName()
+    {
+        return super.getFirstName();
+    }
+    public void setFirstName(String fname) throws IllegalArgumentException
+    {
+        super.setFirstName(fname);
+    }
+
+
+
+
+    public String getLastName()
+    {
+        return super.getLastName();
+    }
+    public void setLastName(String lname) throws IllegalArgumentException
+    {
+        super.setLastName(lname);
+    }
+
+
+
+
+    public String getPhoneNumber()
+    {
+        return super.getPhoneNumber();
+    }
+    public void setPhoneNumber(String phoneNumber)
+    {
+        super.setPhoneNumber(phoneNumber);
+    }
+
+    public String getEmail()
+    {
+        return super.getEmail();
+    }
+    public void setEmail(String email) throws IllegalArgumentException
+    {
+        super.setEmail(email);
+    }
+
+
+    public int getYearOfBirth()
+    {
+        return super.getYearOfBirth();
+    }
+    public void setYearOfBirth(int year) throws IllegalArgumentException
+    {
+        super.setYearOfBirth(year);
+    }
+
+
+
+    public String getPost()
+    {
+        return post;
+    }
+    public void setPost(String post)
+    {
+        this.post = post;
+    }
+
+
+
+    public float getSalary()
+    {
+        return salary;
+    }
+
+    public void setSalary(float salary) throws IllegalArgumentException{
+        if(salary < 0)
+            throw new IllegalArgumentException("Salary is negative.");
+        else
+            this.salary = salary;
+    }
+
+    private boolean getStatus()
+    {
+        return this.status;
+    }
+
+    private void setStatus(boolean status)
+    {
+        this.status = status;
+    }
+
+
+    public String toString()
+    {
+        String str = "\nID : " + super.getId()
+                + "\nFirst name : " + super.getFirstName()
+                + "\nLast name : " + super.getLastName()
+                + "\nPhone number : " + super.getPhoneNumber()
+                + "\nEmail : " + super.getEmail()
+                + "\nPost : " + post
+                + "\nSalary : " + salary
+                + "\nStatus : " + (status ? "Active" : "Not active");
+        return str;
+    }
+
+
+
+
+}
+
