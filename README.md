@@ -43,6 +43,6 @@ Le **Gym Management System** est une application JavaFX destinée à gérer effi
 
 - **Java** version 11 ou plus.
 - **JavaFX SDK**.
-- **Base de données** (MySQL, PostgreSQL, ou SQLite).
+- **Base de données** (MySQL).
 - **IDE** : IntelliJ IDEA, Eclipse, ou tout autre IDE compatible avec JavaFX.
 
